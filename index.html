@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estética Facial | Tratamentos Profissionais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C6A96C;
+            --gold-light: #E8D5A3;
+            --dark: #1a1a1a;
+            --darker: #0d0d0d;
+            --text: #e0e0e0;
+            --text-muted: #999;
+            --bg: #111;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 17, 17, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(198, 169, 108, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--bg) 50%, rgba(198, 169, 108, 0.05) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(198, 169, 108, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 400;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: var(--darker);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(198, 169, 108, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--darker);
+        }
+
+        /* ===== SECTIONS GENERAL ===== */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header span {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: #fff;
+        }
+
+        /* ===== GALLERY / SERVICES ===== */
+        .gallery {
+            background: var(--darker);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            group: true;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-card:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .overlay p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== ABOUT ===== */
+        .about {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            border: 1px solid rgba(198, 169, 108, 0.2);
+            border-radius: 8px;
+        }
+
+        .stat .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* ===== SERVICES LIST ===== */
+        .services-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+        }
+
+        .service-item:hover {
+            padding-left: 1rem;
+            border-color: var(--gold);
+        }
+
+        .service-item h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        .service-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .service-item .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(198, 169, 108, 0.08) 0%, var(--bg) 100%);
+            border-top: 1px solid rgba(198, 169, 108, 0.1);
+        }
+
+        .cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            font-weight: 300;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer .logo {
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(17, 17, 17, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid rgba(198, 169, 108, 0.15);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .gallery-card {
+                aspect-ratio: 4/3;
+            }
+
+            .gallery-card .overlay {
+                opacity: 1;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .service-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="logo">ESTÉTICA</a>
+        <ul class="nav-links">
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <span class="hero-badge">✦ Cuidado Premium ✦</span>
+        <h1>Beleza que <em>transforma</em></h1>
+        <p>Tratamentos faciais avançados com tecnologia de ponta e produtos premium para resultados visíveis desde a primeira sessão.</p>
+        <a href="#contato" class="btn">Agende sua Sessão</a>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="galeria">
+        <div class="section-header fade-in">
+            <span>Nosso Trabalho</span>
+            <h2>Resultados Reais</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-card fade-in">
+                <img src="images/procedimento.png" alt="Procedimento estético facial">
+                <div class="overlay">
+                    <h3>Procedimento Facial</h3>
+                    <p>Tratamento profissional com máxima segurança e cuidado</p>
+                </div>
+            </div>
+            <div class="gallery-card fade-in">
+                <img src="images/produtos.png" alt="Produtos Cosmobeauty NAD+ e AntiOxC">
+                <div class="overlay">
+                    <h3>Produtos Premium</h3>
+                    <p>Cosmobeauty NAD+ • Peeling de Peptídeos • LED Therapy</p>
+                </div>
+            </div>
+            <div class="gallery-card fade-in">
+                <img src="images/dermaplaning.jpg" alt="Antes e depois dermaplaning">
+                <div class="overlay">
+                    <h3>Dermaplaning</h3>
+                    <p>Antes e depois — pele renovada e luminosa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="sobre">
+        <div class="about">
+            <div class="section-header fade-in">
+                <span>Sobre Nós</span>
+                <h2>Excelência em Estética</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <p>Somos especializados em tratamentos faciais de alta performance. Utilizamos as melhores tecnologias e produtos do mercado, como a linha Cosmobeauty NAD+ e terapia com LED, para proporcionar resultados visíveis e duradouros.</p>
+                    <p>Cada procedimento é personalizado de acordo com as necessidades da sua pele, garantindo segurança, conforto e a transformação que você merece.</p>
+                </div>
+                <div class="about-stats fade-in">
+                    <div class="stat">
+                        <span class="number">500+</span>
+                        <span class="label">Clientes</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number">5</span>
+                        <span class="label">Anos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number">98%</span>
+                        <span class="label">Satisfação</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number">15+</span>
+                        <span class="label">Tratamentos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="servicos" style="background: var(--darker);">
+        <div class="section-header fade-in">
+            <span>Tratamentos</span>
+            <h2>Nossos Serviços</h2>
+        </div>
+        <div class="services-list">
+            <div class="service-item fade-in">
+                <div>
+                    <h3>Dermaplaning</h3>
+                    <p>Esfoliação profunda com remoção de pelos faciais</p>
+                </div>
+                <span class="price">Consulte</span>
+            </div>
+            <div class="service-item fade-in">
+                <div>
+                    <h3>Peeling de Peptídeos NAD+</h3>
+                    <p>Renovação celular com concentrado de ouro líquido</p>
+                </div>
+                <span class="price">Consulte</span>
+            </div>
+            <div class="service-item fade-in">
+                <div>
+                    <h3>LED Therapy</h3>
+                    <p>Terapia com máscara de LED para rejuvenescimento</p>
+                </div>
+                <span class="price">Consulte</span>
+            </div>
+            <div class="service-item fade-in">
+                <div>
+                    <h3>Limpeza de Pele Profunda</h3>
+                    <p>Higienização profunda com AntiOxC Cosmobeauty</p>
+                </div>
+                <span class="price">Consulte</span>
+            </div>
+            <div class="service-item fade-in">
+                <div>
+                    <h3>PDRN + Exossomos</h3>
+                    <p>Bioestimulação avançada para rejuvenescimento</p>
+                </div>
+                <span class="price">Consulte</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="contato">
+        <h2>Pronta para se <em style="color: var(--gold); font-family: 'Playfair Display', serif;">transformar</em>?</h2>
+        <p>Entre em contato e agende sua avaliação gratuita. Descubra o melhor tratamento para a sua pele.</p>
+        <a href="https://wa.me/5500000000000" class="btn" target="_blank">Fale pelo WhatsApp</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="#" class="logo">ESTÉTICA</a>
+        <p>&copy; 2026 Estética Facial. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.padding = '0.8rem 2rem';
+            } else {
+                nav.style.padding = '1.2rem 2rem';
+            }
+        });
+    </script>
+</body>
+</html>
