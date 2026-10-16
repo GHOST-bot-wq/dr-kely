@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divina Derma | Dra. Kelly Rezende - Estética Facial Avançada em Anápolis</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts Google: Playfair Display & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            light: '#F5E5C9',
+                            DEFAULT: '#D4AF37',
+                            dark: '#A38025',
+                            rose: '#E6C5AC'
+                        },
+                        champagne: '#F7F3ED',
+                        luxblack: '#121212',
+                        emerald: {
+                            deep: '#0B2019',
+                            soft: '#163B30'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 50%, #B8860B 100%);
+        }
+        .bg-dark-gradient {
+            background: linear-gradient(180deg, #121212 0%, #0B2019 100%);
+        }
+        .gold-border {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-champagne text-slate-800 font-sans antialiased overflow-x-hidden selection:bg-gold selection:text-white">
+
+    <!-- FLOATING TOP BAR FOR UPLOADING / CARREGAR FOTOS LOCAIS INSTANTANEAMENTE -->
+    <div id="image-uploader-bar" class="bg-luxblack text-amber-100 text-xs py-2.5 px-4 border-b border-gold/30 sticky top-0 z-[100] shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded bg-gold/20 text-gold text-[10px] font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-camera mr-1"></i> Carregar Suas Fotos
+                </span>
+                <span class="hidden sm:inline text-slate-300">Selecione as imagens do seu computador para atualizar a galeria em tempo real:</span>
+            </div>
+            
+            <div class="flex items-center space-x-3 overflow-x-auto w-full md:w-auto py-1">
+                <!-- Upload Slot 1 -->
+                <label class="cursor-pointer bg-emerald-deep hover:bg-emerald-soft border border-gold/40 px-3 py-1 rounded text-[11px] text-amber-200 flex items-center space-x-1.5 whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-upload text-gold"></i>
+                    <span>1. Produtos & LED</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-1', 'svg-slot-1')">
+                </label>
+
+                <!-- Upload Slot 2 -->
+                <label class="cursor-pointer bg-emerald-deep hover:bg-emerald-soft border border-gold/40 px-3 py-1 rounded text-[11px] text-amber-200 flex items-center space-x-1.5 whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-upload text-gold"></i>
+                    <span>2. Antes/Depois Dermaplaning</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-2', 'svg-slot-2')">
+                </label>
+
+                <!-- Upload Slot 3 -->
+                <label class="cursor-pointer bg-emerald-deep hover:bg-emerald-soft border border-gold/40 px-3 py-1 rounded text-[11px] text-amber-200 flex items-center space-x-1.5 whitespace-nowrap transition-colors">
+                    <i class="fa-solid fa-upload text-gold"></i>
+                    <span>3. Atendimento</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-3', 'svg-slot-3')">
+                </label>
+
+                <button onclick="document.getElementById('image-uploader-bar').style.display='none'" class="text-slate-400 hover:text-white text-xs px-2" title="Fechar barra de upload">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="sticky top-0 z-50 bg-luxblack/95 backdrop-blur-md border-b border-gold/20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- LOGO -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-12 h-12 rounded-full bg-emerald-deep border-2 border-gold flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                        <span class="font-serif text-2xl font-bold gold-gradient-text">D</span>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl sm:text-2xl font-bold tracking-wider gold-gradient-text block leading-tight">DIVINA DERMA</span>
+                        <span class="text-[9px] sm:text-[10px] tracking-[0.25em] text-gold-rose uppercase block font-medium">Kelly Rezende • Estética Facial</span>
+                    </div>
+                </a>
+
+                <!-- DESKTOP NAV -->
+                <nav class="hidden lg:flex items-center space-x-8 text-xs uppercase tracking-widest font-medium">
+                    <a href="#inicio" class="text-slate-200 hover:text-gold transition-colors">Início</a>
+                    <a href="#sobre" class="text-slate-200 hover:text-gold transition-colors">Dra. Kelly</a>
+                    <a href="#galeria" class="text-slate-200 hover:text-gold transition-colors">Galeria Real</a>
+                    <a href="#tratamentos" class="text-slate-200 hover:text-gold transition-colors">Tratamentos</a>
+                    <a href="#depoimentos" class="text-slate-200 hover:text-gold transition-colors">Depoimentos</a>
+                </nav>
+
+                <!-- CTA BUTTON -->
+                <div class="hidden sm:block">
+                    <a href="https://wa.me/5562900000000?text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta%20com%20a%20Dra.%20Kelly%20Rezende" target="_blank"
+                       class="px-5 py-2.5 rounded-full bg-gold-gradient text-luxblack font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-all duration-300 shadow-lg flex items-center space-x-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Agendar Horário</span>
+                    </a>
+                </div>
+
+                <!-- MOBILE MENU BUTTON -->
+                <button id="mobile-menu-btn" class="lg:hidden text-gold focus:outline-none p-2">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV DROPDOWN -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-luxblack border-b border-gold/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block py-2 text-slate-200 text-sm font-medium border-b border-slate-800">Início</a>
+            <a href="#sobre" class="block py-2 text-slate-200 text-sm font-medium border-b border-slate-800">Dra. Kelly Rezende</a>
+            <a href="#galeria" class="block py-2 text-slate-200 text-sm font-medium border-b border-slate-800">Galeria & Procedimentos</a>
+            <a href="#tratamentos" class="block py-2 text-slate-200 text-sm font-medium border-b border-slate-800">Tratamentos</a>
+            <a href="#depoimentos" class="block py-2 text-slate-200 text-sm font-medium border-b border-slate-800">Depoimentos</a>
+            <a href="https://wa.me/5562900000000?text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta" target="_blank"
+               class="w-full mt-3 py-3 rounded-full bg-gold-gradient text-luxblack text-center font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Agendar no WhatsApp</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative bg-dark-gradient text-white py-20 lg:py-32 overflow-hidden">
+        <!-- Subtle Pattern Overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:32px_32px]"></div>
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-gold/10 blur-3xl"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-soft/40 blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-emerald-deep/80 border border-gold/40 px-4 py-1.5 rounded-full text-xs text-gold-rose tracking-widest uppercase">
+                        <i class="fa-solid fa-sparkles text-gold"></i>
+                        <span>Anápolis - GO & Região</span>
+                    </div>
+
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
+                        Transformando peles,<br>
+                        <span class="italic font-bold gold-gradient-text">revelando sua essência.</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Há <strong class="text-gold font-semibold">9 anos</strong> elevando a auto-estima através da Biomedicina Estética de Alta Performance. Protocolos exclusivos faciais e corporais personalizados para você.
+                    </p>
+
+                    <!-- BADGES BIO SUMMARY -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 text-xs text-slate-300">
+                        <span class="bg-luxblack/60 border border-gold/30 px-3 py-1.5 rounded-md flex items-center">
+                            <i class="fa-solid fa-user-graduate text-gold mr-2"></i> Biomedicina em Graduação 7/8
+                        </span>
+                        <span class="bg-luxblack/60 border border-gold/30 px-3 py-1.5 rounded-md flex items-center">
+                            <i class="fa-solid fa-bolt text-gold mr-2"></i> Master Laser Habilitada #dmc
+                        </span>
+                    </div>
+
+                    <div class="pt-6 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="https://wa.me/5562900000000?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20minha%20avaliação%20com%20a%20Dra.%20Kelly" target="_blank"
+                           class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold-gradient text-luxblack font-bold text-xs uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-xl flex items-center justify-center space-x-3">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Agendar Avaliação VIP</span>
+                        </a>
+                        <a href="#galeria" 
+                           class="w-full sm:w-auto px-8 py-4 rounded-full border border-gold/40 text-amber-100 font-medium text-xs uppercase tracking-widest hover:bg-emerald-deep transition-all text-center">
+                            Ver Galeria de Fotos
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HERO STATS & IMAGE CARD -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <!-- Decorative Gold Frame -->
+                        <div class="absolute -inset-2 rounded-2xl bg-gradient-to-r from-gold via-gold-rose to-gold opacity-40 blur-sm"></div>
+                        <div class="relative bg-luxblack rounded-2xl overflow-hidden border border-gold/50 p-6 text-center space-y-6 shadow-2xl">
+                            <div class="w-24 h-24 mx-auto rounded-full bg-emerald-deep border-2 border-gold flex items-center justify-center">
+                                <i class="fa-solid fa-gem text-4xl text-gold"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold gold-gradient-text">Kelly Rezende</h3>
+                                <p class="text-xs text-gold-rose tracking-widest uppercase mt-1">Estética Facial Avançada</p>
+                            </div>
+                            <div class="w-16 h-0.5 bg-gold/40 mx-auto"></div>
+                            
+                            <div class="grid grid-cols-2 gap-4 text-center">
+                                <div class="p-3 rounded-lg bg-emerald-deep/50 border border-gold/20">
+                                    <span class="block font-serif text-2xl font-bold text-gold">9 Anos</span>
+                                    <span class="text-[10px] text-slate-300 uppercase">de Experiência</span>
+                                </div>
+                                <div class="p-3 rounded-lg bg-emerald-deep/50 border border-gold/20">
+                                    <span class="block font-serif text-2xl font-bold text-gold">+1.000</span>
+                                    <span class="text-[10px] text-slate-300 uppercase">Posts & Cuidados</span>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-400 italic">
+                                "Protocolos Exclusivos Faciais e Corporais voltados à renovação celular profunda e saúde da pele."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE A DRA. KELLY REZENDE -->
+    <section id="sobre" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- PROFILE DESCRIPTION -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold text-gold-dark tracking-widest uppercase">Especialista Qualificada</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl text-emerald-deep font-bold mt-1">
+                            Conheça a Dra. Kelly Rezende
+                        </h2>
+                        <div class="w-20 h-1 bg-gold rounded-full mt-3"></div>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        A clínica <strong>Divina Derma</strong> é referência em Anápolis e região por associar técnicas científicas avançadas com acolhimento humanizado. Com 9 anos de trajetória dedicada à saúde estêtica:
+                    </p>
+
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-gold text-base mt-0.5"></i>
+                            <span><strong>Biomedicina em Graduação (7/8 Semestre):</strong> Rigor científico e conhecimento biomédico aprofundado.</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-gold text-base mt-0.5"></i>
+                            <span><strong>Master Laser Habilitada #DMC:</strong> Especialista no manuseio de tecnologias a laser de alta potência.</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-circle-check text-gold text-base mt-0.5"></i>
+                            <span><strong>Protocolos Exclusivos:</strong> Tratamentos personalizados desenvolvidos sob medida para cada tipo de pele.</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-2 flex items-center space-x-4">
+                        <a href="https://www.instagram.com/kellyrezende.divinaderma" target="_blank" 
+                           class="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-luxblack text-gold text-xs font-bold uppercase tracking-wider hover:bg-emerald-deep transition-colors">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                            <span>@kellyrezende.divinaderma</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- EXPERIENCE CARDS -->
+                <div class="lg:col-span-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="p-6 bg-champagne rounded-2xl border border-gold/30 shadow-sm space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-hand-holding-medical"></i>
+                            </div>
+                            <h3 class="font-serif font-bold text-emerald-deep text-lg">Biomedicina Facial</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Abordagem integrativa para prevenção do envelhecimento precoce e regeneração cutânea.
+                            </p>
+                        </div>
+
+                        <div class="p-6 bg-champagne rounded-2xl border border-gold/30 shadow-sm space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <h3 class="font-serif font-bold text-emerald-deep text-lg">Master Laser DMC</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Habilitação avançada em terapia a laser e fototerapia para tratamento de melasma e rejuvenescimento.
+                            </p>
+                        </div>
+
+                        <div class="p-6 bg-champagne rounded-2xl border border-gold/30 shadow-sm space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h3 class="font-serif font-bold text-emerald-deep text-lg">Cosméticos de Elite</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Uso de marcas renomadas internacionais como Cosmobeauty (Lapa Peptídeos NAD+ e antiOxC).
+                            </p>
+                        </div>
+
+                        <div class="p-6 bg-champagne rounded-2xl border border-gold/30 shadow-sm space-y-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <h3 class="font-serif font-bold text-emerald-deep text-lg">Atendimento Humanizado</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Avaliação atenta e individualizada priorizando sua segurança, conforto e bem-estar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERIA REAL: AS 3 IMAGENS ENVIADAS DO INSTAGRAM/CLÍNICA -->
+    <section id="galeria" class="py-20 bg-luxblack text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-gold tracking-widest uppercase">Galeria Exclusiva</span>
+                <h2 class="font-serif text-3xl sm:text-4xl gold-gradient-text font-bold mt-2">Tecnologias & Procedimentos Reais</h2>
+                <p class="text-slate-400 text-sm mt-3">
+                    Confira abaixo as três imagens em destaque registradas na Divina Derma:
+                </p>
+                <div class="w-20 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- CARD 1: PRODUTOS COSMOBEAUTY & MÁSCARA LED -->
+                <div class="bg-emerald-deep/60 rounded-2xl border border-gold/30 overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-gold transition-all duration-300">
+                    <div>
+                        <div class="relative w-full h-80 bg-slate-900 overflow-hidden flex items-center justify-center">
+                            <!-- Standard Image Fallback -->
+                            <img id="img-slot-1" src="produtos_cosmobeauty.jpg" alt="Produtos Cosmobeauty e Máscara LED Branca" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 hidden" onerror="showSvgFallback('img-slot-1', 'svg-slot-1')">
+                            
+                            <!-- High Fidelity SVG Fallback depicting Image 1 -->
+                            <svg id="svg-slot-1" viewBox="0 0 500 400" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="500" height="400" fill="#0A0F1D"/>
+                                <circle cx="250" cy="180" r="140" fill="#38BDF8" opacity="0.15" filter="blur(20px)"/>
+                                <!-- Cosmobeauty Products -->
+                                <!-- Box NAD+ -->
+                                <rect x="30" y="160" width="120" height="170" rx="6" fill="#FFFFFF" stroke="#D4AF37" stroke-width="2"/>
+                                <text x="90" y="200" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#8B0000">NAD+</text>
+                                <text x="90" y="220" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#000">PEELING DE PEPTÍDEOS</text>
+                                <rect x="45" y="240" width="90" height="30" fill="#8B0000"/>
+                                <text x="90" y="260" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#FFF" font-weight="bold">Gold Dermic 3</text>
+                                <!-- Bottle antiOxC -->
+                                <rect x="170" y="120" width="70" height="210" rx="10" fill="#F8FAFC" stroke="#D4AF37" stroke-width="1.5"/>
+                                <rect x="185" y="80" width="40" height="40" fill="#E2E8F0" rx="4"/>
+                                <rect x="180" y="180" width="50" height="120" fill="#D4AF37" opacity="0.8"/>
+                                <text x="205" y="210" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFF">antiOxC</text>
+                                <text x="205" y="230" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#FFF">Sabonete Facial 10</text>
+                                <!-- Ampoules NAD+ -->
+                                <rect x="255" y="240" width="20" height="50" rx="4" fill="#B8860B"/>
+                                <rect x="280" y="240" width="20" height="50" rx="4" fill="#B8860B"/>
+                                <!-- LED Mask White -->
+                                <path d="M320,100 C370,80 440,80 480,100 C500,160 500,240 480,290 C430,320 370,320 320,290 C300,240 300,160 320,100 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+                                <ellipse cx="370" cy="180" rx="25" ry="12" fill="#0A0F1D"/>
+                                <ellipse cx="440" cy="180" rx="25" ry="12" fill="#0A0F1D"/>
+                                <circle cx="405" cy="115" r="10" fill="#E2E8F0" stroke="#94A3B8"/>
+                                <!-- Tag Banner -->
+                                <rect x="0" y="340" width="500" height="60" fill="#062C22"/>
+                                <text x="250" y="375" text-anchor="middle" fill="#FCF6BA" font-family="serif" font-size="15" font-weight="bold">Cosmobeauty NAD+ Peptídeos & Máscara LED</text>
+                            </svg>
+
+                            <div class="absolute top-3 right-3 bg-luxblack/80 border border-gold/40 text-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                                Foto 1 enviado
+                            </div>
+                        </div>
+
+                        <div class="p-6 space-y-3">
+                            <span class="text-[10px] font-bold text-gold tracking-widest uppercase block">Biotecnologia Dermocosmética</span>
+                            <h3 class="font-serif text-xl font-bold text-white">1. Linha Cosmobeauty & Fototerapia LED</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Protocolo com **NAD+ Peeling de Peptídeos Gold Dermic 3**, **antiOxC Sabonete Cremoso 10** e fotobiomodulação com **Máscara LED Facial**, promovendo a longevidade e regeneração térmica da pele.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <label class="block w-full py-2 bg-emerald-soft hover:bg-gold hover:text-luxblack text-gold text-center text-xs font-bold uppercase rounded cursor-pointer transition-colors border border-gold/30">
+                            Substituir Imagem 1
+                            <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-1', 'svg-slot-1')">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- CARD 2: RESULTADO ANTES E DEPOIS DERMAPLANING -->
+                <div class="bg-emerald-deep/60 rounded-2xl border border-gold/30 overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-gold transition-all duration-300">
+                    <div>
+                        <div class="relative w-full h-80 bg-slate-900 overflow-hidden flex items-center justify-center">
+                            <!-- Standard Image Fallback -->
+                            <img id="img-slot-2" src="antes_depois_dermaplaning.jpg" alt="Antes e Depois Dermaplaning" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 hidden" onerror="showSvgFallback('img-slot-2', 'svg-slot-2')">
+                            
+                            <!-- High Fidelity SVG Fallback depicting Image 2 -->
+                            <svg id="svg-slot-2" viewBox="0 0 500 400" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="500" height="400" fill="#1E1B18"/>
+                                <!-- Left side: Antes -->
+                                <rect x="0" y="0" width="248" height="340" fill="#B58A68"/>
+                                <!-- Vellus hairs and dead skin line -->
+                                <path d="M40,60 C120,120 100,220 220,320" fill="none" stroke="#D2A679" stroke-width="40"/>
+                                <line x1="80" y1="90" x2="90" y2="80" stroke="#5C4033" stroke-width="2"/>
+                                <line x1="110" y1="130" x2="120" y2="120" stroke="#5C4033" stroke-width="2"/>
+                                <line x1="140" y1="180" x2="150" y2="170" stroke="#5C4033" stroke-width="2"/>
+                                <text x="70" y="160" font-family="cursive, sans-serif" font-size="22" fill="#FFF">Antes</text>
+                                <text x="40" y="190" font-family="cursive, sans-serif" font-size="20" fill="#FFF">dermaplaning</text>
+                                
+                                <!-- Dividing line / Peeling line -->
+                                <line x1="250" y1="0" x2="250" y2="340" stroke="#FFF" stroke-width="3" stroke-dasharray="6 4"/>
+                                <path d="M230,80 L260,300" stroke="#F5E5C9" stroke-width="8"/>
+
+                                <!-- Right side: Depois -->
+                                <rect x="252" y="0" width="248" height="340" fill="#E8C39E"/>
+                                <text x="350" y="100" font-family="cursive, sans-serif" font-size="22" fill="#FFF">Depois</text>
+                                <text x="310" y="130" font-family="cursive, sans-serif" font-size="20" fill="#FFF">dermaplaning</text>
+                                <circle cx="400" cy="200" r="40" fill="#FFF" opacity="0.3" filter="blur(10px)"/>
+
+                                <rect x="0" y="340" width="500" height="60" fill="#062C22"/>
+                                <text x="250" y="375" text-anchor="middle" fill="#FCF6BA" font-family="serif" font-size="15" font-weight="bold">Antes e Depois: Dermaplaning Facial</text>
+                            </svg>
+
+                            <div class="absolute top-3 right-3 bg-luxblack/80 border border-gold/40 text-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                                Foto 2 enviado
+                            </div>
+                        </div>
+
+                        <div class="p-6 space-y-3">
+                            <span class="text-[10px] font-bold text-gold tracking-widest uppercase block">Resultado Comprovado</span>
+                            <h3 class="font-serif text-xl font-bold text-white">2. Antes & Depois Dermaplaning</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Foto real mostrando a remoção física das células mortas e pelos velos. Revela a camada de pele incrivelmente uniforme, macia, luminosa e pronta para receber dermocosméticos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <label class="block w-full py-2 bg-emerald-soft hover:bg-gold hover:text-luxblack text-gold text-center text-xs font-bold uppercase rounded cursor-pointer transition-colors border border-gold/30">
+                            Substituir Imagem 2
+                            <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-2', 'svg-slot-2')">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- CARD 3: PROCEDIMENTO EM ATENDIMENTO COM DERMAROLLER -->
+                <div class="bg-emerald-deep/60 rounded-2xl border border-gold/30 overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-gold transition-all duration-300">
+                    <div>
+                        <div class="relative w-full h-80 bg-slate-900 overflow-hidden flex items-center justify-center">
+                            <!-- Standard Image Fallback -->
+                            <img id="img-slot-3" src="procedimento_estetica.jpg" alt="Procedimento Estético Microagulhamento em Atendimento" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 hidden" onerror="showSvgFallback('img-slot-3', 'svg-slot-3')">
+                            
+                            <!-- High Fidelity SVG Fallback depicting Image 3 -->
+                            <svg id="svg-slot-3" viewBox="0 0 500 400" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="500" height="400" fill="#0F172A"/>
+                                <!-- Professional with Mask & Green Gloves -->
+                                <circle cx="120" cy="200" r="90" fill="#1E293B"/>
+                                <path d="M50,180 Q100,210 140,190" stroke="#38BDF8" stroke-width="25"/> <!-- Mask -->
+                                <path d="M220,120 Q260,180 300,100" stroke="#4ADE80" stroke-width="30" stroke-linecap="round"/> <!-- Green Gloves -->
+                                <!-- Dermaroller Tool -->
+                                <line x1="280" y1="110" x2="360" y2="130" stroke="#000" stroke-width="8"/>
+                                <ellipse cx="365" cy="132" rx="12" ry="18" fill="#38BDF8"/>
+                                <!-- Patient Face -->
+                                <path d="M250,220 Q350,200 450,280" fill="none" stroke="#FED7AA" stroke-width="70" stroke-linecap="round"/>
+                                
+                                <rect x="0" y="340" width="500" height="60" fill="#062C22"/>
+                                <text x="250" y="375" text-anchor="middle" fill="#FCF6BA" font-family="serif" font-size="15" font-weight="bold">Atendimento Presencial e Microagulhamento</text>
+                            </svg>
+
+                            <div class="absolute top-3 right-3 bg-luxblack/80 border border-gold/40 text-gold text-[10px] uppercase font-bold px-3 py-1 rounded-full">
+                                Foto 3 enviado
+                            </div>
+                        </div>
+
+                        <div class="p-6 space-y-3">
+                            <span class="text-[10px] font-bold text-gold tracking-widest uppercase block">Atendimento Personalizado</span>
+                            <h3 class="font-serif text-xl font-bold text-white">3. Procedimentos em Gabinete</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Aplicação técnica de **Microagulhamento / Roller**, permeação de ativos e protocolos de indução percutânea de colágeno executados com biossegurança total.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 pt-0">
+                        <label class="block w-full py-2 bg-emerald-soft hover:bg-gold hover:text-luxblack text-gold text-center text-xs font-bold uppercase rounded cursor-pointer transition-colors border border-gold/30">
+                            Substituir Imagem 3
+                            <input type="file" accept="image/*" class="hidden" onchange="loadLocalImage(event, 'img-slot-3', 'svg-slot-3')">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LISTA COMPLETA DE TRATAMENTOS -->
+    <section id="tratamentos" class="py-20 bg-champagne">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-semibold text-gold-dark tracking-widest uppercase">Menu de Procedimentos</span>
+                <h2 class="font-serif text-3xl sm:text-4xl text-emerald-deep font-bold mt-2">Tratamentos Especializados</h2>
+                <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1. Limpeza de Pele -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Limpeza de Pele Profunda</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Remoção de impurezas, cravos e milium com hidratação e fototerapia para restauração do equilíbrio cutâneo.
+                    </p>
+                </div>
+
+                <!-- 2. Dermaplaning -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-feather"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Dermaplaning Avançado</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Esfoliação física com bisturi cirúrgico. Elimina a pilosidade facial (vellus) e proporciona uniformidade imediata.
+                    </p>
+                </div>
+
+                <!-- 3. Melasma OFF -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Tratamento Melasma OFF</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Protocolo exclusivo despigmentante para controle de manchas recalcitrantes e harmonização da tonalidade do rosto.
+                    </p>
+                </div>
+
+                <!-- 4. Microagulhamento -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-cubes-stacked"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Microagulhamento & Drug Delivery</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Estimulação mecânica de colágeno aliada à infusão profunda de fatores de crescimento e peptídeos.
+                    </p>
+                </div>
+
+                <!-- 5. Peeling de Peptídeos & NAD+ -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-flask-vial"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Peeling de Peptídeos (NAD+)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Ação antienvelhecimento celular com nano peptídeos e antioxidantes de alto impacto biológico.
+                    </p>
+                </div>
+
+                <!-- 6. Master Laser DMC -->
+                <div class="bg-white p-8 rounded-2xl border border-gold/20 shadow-sm hover:shadow-xl transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-deep text-gold flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-xl text-emerald-deep mb-2">Laser Terapêutico DMC</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Bioestimulação a laser de última geração para firmeza, cicatrizes e recuperação tecidual acelerada.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEPOIMENTOS E LOCALIZAÇÃO EM ANÁPOLIS -->
+    <section id="depoimentos" class="py-20 bg-emerald-deep text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- DEPOIMENTOS -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold text-gold tracking-widest uppercase">Feedback de Pacientes</span>
+                        <h2 class="font-serif text-3xl font-bold text-amber-100 mt-1">O Reconhecimento de um Trabalho Feito com Amor</h2>
+                        <div class="w-16 h-1 bg-gold rounded-full mt-3"></div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-6 bg-emerald-soft/80 border border-gold/30 rounded-2xl">
+                            <div class="flex text-gold text-xs mb-2">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-200 italic">
+                                "A Dra. Kelly é simplesmente maravilhosa! O resultado do Dermaplaning e da máscara LED superou todas as minhas expectativas. Atendimento nota 1000!"
+                            </p>
+                            <span class="block text-gold text-xs font-bold mt-3">— Paciente Anápolis-GO</span>
+                        </div>
+
+                        <div class="p-6 bg-emerald-soft/80 border border-gold/30 rounded-2xl">
+                            <div class="flex text-gold text-xs mb-2">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-200 italic">
+                                "O tratamento para Melasma foi o único que realmente deu resultado na minha pele. Ela tem um conhecimento impecável."
+                            </p>
+                            <span class="block text-gold text-xs font-bold mt-3">— Cliente Divina Derma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENDEREÇO & ANÁPOLIS-GO -->
+                <div class="lg:col-span-5 bg-luxblack p-8 rounded-2xl border border-gold/40 text-center space-y-6 shadow-2xl">
+                    <div class="w-16 h-16 rounded-full bg-emerald-deep border-2 border-gold flex items-center justify-center mx-auto text-gold text-2xl">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold gold-gradient-text">Atendimento em Anápolis</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Clínica Divina Derma por Dra. Kelly Rezende<br>
+                        <strong>Anápolis - GO e Região</strong>
+                    </p>
+                    <div class="pt-2">
+                        <a href="https://wa.me/5562900000000?text=Olá!%20Gostaria%20de%20saber%20o%20endereço%20exato%20da%20clínica%20em%20Anápolis" target="_blank"
+                           class="inline-block px-6 py-3 rounded-full bg-gold-gradient text-luxblack font-bold text-xs uppercase tracking-wider hover:scale-105 transition-transform">
+                            Solicitar Localização no WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-luxblack text-slate-400 py-12 border-t border-gold/20 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <span class="font-serif text-xl font-bold gold-gradient-text block">DIVINA DERMA</span>
+                    <span class="text-[10px] text-slate-400 tracking-widest uppercase">Kelly Rezende • Estética Facial Avançada</span>
+                </div>
+
+                <div class="flex space-x-6 text-sm">
+                    <a href="https://www.instagram.com/kellyrezende.divinaderma" target="_blank" class="hover:text-gold transition-colors flex items-center space-x-1">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>@kellyrezende.divinaderma</span>
+                    </a>
+                </div>
+
+                <div class="text-center md:text-right text-slate-500 text-[11px]">
+                    <p>&copy; 2026 Divina Derma. Anápolis-GO. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/5562900000000?text=Olá!%20Vim%20pelo%20site%20da%20Divina%20Derma%20e%20gostaria%20de%20agendar%20um%20horário!" target="_blank"
+       class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 text-white rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-transform border-2 border-white"
+       title="Falar no WhatsApp com a Dra. Kelly Rezende">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPT FOR LOCAL IMAGE LOADER & MOBILE MENU -->
+    <script>
+        // Function to load real images from user's computer on the fly
+        function loadLocalImage(event, imgId, svgId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById(imgId);
+                    const svgElement = document.getElementById(svgId);
+                    
+                    imgElement.src = e.target.result;
+                    imgElement.classList.remove('hidden');
+                    if(svgElement) svgElement.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Fallback function if local path fails to display
+        function showSvgFallback(imgId, svgId) {
+            const imgElement = document.getElementById(imgId);
+            const svgElement = document.getElementById(svgId);
+            if (imgElement && svgElement) {
+                imgElement.classList.add('hidden');
+                svgElement.classList.remove('hidden');
+            }
+        }
+
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
